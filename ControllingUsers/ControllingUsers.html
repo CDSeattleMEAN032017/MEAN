@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app = 'app'>
+  <head>
+    <style media="screen">
+    input {
+      vertical-align: top;
+        display: block;
+        padding-left: 2px;
+        margin-top: 5px;
+        padding-right: 2px;
+    }
+    #myForm{
+      vertical-align: top;
+      display:inline-block;
+    }
+    #myresults{
+      vertical-align: top;
+      display:inline-block;
+
+
+      border:1px solid black;
+    }
+    </style>
+    <script type="text/javascript" src = "bower_components/angular/angular.js"></script>
+    <script type="text/javascript">
+      myModule = angular.module('app', [])
+      myModule.controller("myForm", function($scope){
+        $scope.sortType = 'first_name';
+        $scope.sortReverse = false;
+        $scope.users = [];
+        $scope.add = function(){
+        $scope.users.push($scope.user);
+        $scope.user = {};
+        }//submit
+        $scope.delete = function(user){
+          var index = $scope.users.indexOf(user);
+          $scope.users.splice(index,1)
+        }//delete
+      })//myform
+    </script>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div ng-controller = "myForm">
+      <div id = "myForm">
+      <fieldset>
+        <legend>Users Controller </legend>
+        <form>
+          First Name<input type = "text" ng-model = 'user.first_name'>
+          Last Name<input type = "text" ng-model = 'user.last_name'>
+          Favorite Language<input type = "text" ng-model = 'user.favorite_language'>
+          <input type = "submit" value = "Create User" ng-click = 'add()'>
+        </form>
+      </fieldset>
+    </div>
+    <div id = "myresults">
+      <table>
+        <tr>
+          <th> <a href="#" ng-click="sortType = 'first_name'; sortReverse = !sortReverse">First Name </a> </th>
+
+          <th> Last Name </th>
+          <th> Fav Language </th>
+          <th> Date/Time Added </th>
+          <th> Actions </th>
+
+        </tr>
+        <tr ng-repeat = "user in users | orderBy:sortType:sortReverse | filter:user:strict">
+          <td> {{user.first_name}} </td>
+          <td> {{user.last_name}} </td>
+          <td> {{user.favorite_language}} </td>
+          <td> {{"2016-01-05T09:05:05.035Z" | date}} </td>
+          <td> <button ng-click = "delete(user)"> Delete User </button> </td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </body>
+</html>

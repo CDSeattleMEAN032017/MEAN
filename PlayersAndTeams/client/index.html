@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    table, th, td {
+ border: 1px solid black;
+}
+    </style>
+    <script src = "bower_components/angular/angular.js"></script>
+    <script src = "bower_components/angular-route/angular-route.js"></script>
+    <script type="text/javascript">
+      myModule = angular.module("App", ['ngRoute'])
+      myModule.config(function($routeProvider){
+        $routeProvider
+        .when('/players',{
+          templateUrl:'partial/players.html',
+        })// the "/"
+        .when('/teams',{
+          templateUrl:'partial/teams.html'
+        })// partial2 route
+        .when('/associations',{
+          templateUrl:'partial/associations.html'
+        })// partial2 route
+        .otherwise({
+          redirectTo:'/'
+        })//redirect
+      })//ngRoute
+      //************************* Factory *********************************
+      myModule.factory('TeamFactory', function(){
+        factory = {}
+        teams = []
+        factory.add = function(x){
+          console.log(x)
+          teams.push(x)
+          console.log(teams)
+          //we are pushing our teams from our controllers
+          //into our array
+        }//add
+        factory.show = function(x){
+          x(teams)
+        }
+        factory.delete = function(team){
+          current_index = teams.indexOf(team) //find the index of value
+          teams.splice(current_index,1);
+        }
+        return factory
+      })//teamfactory
+      myModule.factory('PlayerFactory', function(){
+        factory = {}
+        players = []
+        factory.add = function(x){
+
+          players.push(x)
+
+          //we are pushing our players from our controllers
+          //into our array
+        }//add
+        factory.show = function(x){
+          x(players)
+        }
+        factory.delete = function(player){
+          current_index = players.indexOf(player) //find the index of value
+          players.splice(current_index,1);
+        }
+        return factory
+      })//playercactory
+      //************************* End *********************************
+            //******************* Controller ******************************
+      myModule.controller('PlayersController', function($scope,PlayerFactory,$location){
+        $scope.add_player = function(player){
+          PlayerFactory.add(player)
+          $scope.player = {}
+           $location.url('/teams');
+
+        }//add player
+          PlayerFactory.show(function(players){
+            $scope.show_players = players
+          })//show
+        $scope.delete = function(player){
+          PlayerFactory.delete(player)
+        }//delete
+      })//players controller
+      myModule.controller('TeamsController', function($scope,TeamFactory, $location){
+        $scope.add_team = function(team){
+          TeamFactory.add(team)
+          $scope.team = {}
+          $location.url('/associations');
+        }//add team
+          TeamFactory.show(function(teams){
+            $scope.show_teams = teams
+          })//show
+        $scope.delete = function(team){
+          TeamFactory.delete(team)
+        }//delete
+      })//teams controller
+      myModule.controller('AssociationsController', function($scope,PlayerFactory,TeamFactory, $location){
+        PlayerOnTeam = []
+        PlayerFactory.show(function(players){
+          $scope.players = players
+        })//show players
+        TeamFactory.show(function(teams){
+          $scope.teams = teams
+        })//show players
+          $scope.PlayerToTeam = function(player,team){
+        PlayerOnTeam.push([player,team])
+        console.log(PlayerOnTeam)
+          }//playertoteam
+        $scope.TeamPlayer = PlayerOnTeam
+        $scope.delete = function(TeamPlayer){
+          IndexAt = PlayerOnTeam.indexOf(TeamPlayer)
+          PlayerOnTeam.splice(IndexAt,1)
+        }//delete
+        $scope.move_location = function(){
+          $location.url('/players');
+        }
+      })//assocations controller
+      //******************* End ******************************
+    </script>
+  </head>
+  <body>
+    <div ng-app = "App">
+      <a href = "#!/players">Players </a> | <a href = "#!/teams">Teams </a> | <a href = "#!/associations">Associations </a>
+      <div ng-view = "">
+      </div>
+    </div>
+  </body>
+</html>

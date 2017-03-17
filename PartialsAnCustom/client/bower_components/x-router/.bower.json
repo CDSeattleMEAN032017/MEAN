@@ -1,0 +1,37 @@
+{
+  "name": "x-router",
+  "description": "router for browser",
+  "main": "dist/x-router.min.js",
+  "moduleType": [
+    "node",
+    "amd",
+    "globals"
+  ],
+  "authors": [
+    "joje <joje.attrs@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/attrs/x-router",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "web_modules",
+    "bower_components",
+    "gulpfile.js",
+    "webpack.config.js",
+    "test",
+    "tests",
+    "bin"
+  ],
+  "version": "0.5.11",
+  "_release": "0.5.11",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.5.11",
+    "commit": "e88bc5e7780eb3f9edf681e9ee37a6141c1aec4e"
+  },
+  "_source": "https://github.com/attrs/browser-routes.git",
+  "_target": "^0.5.11",
+  "_originalSource": "routes",
+  "_direct": true
+}

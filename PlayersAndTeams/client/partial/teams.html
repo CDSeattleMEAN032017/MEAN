@@ -1,0 +1,17 @@
+<h1> Welcome to the team partial view </h1>
+<div ng-controller = 'TeamsController'>
+<form ng-submit = "add_team(team)">
+  Name <input type = "text" ng-model = "team.name">
+  <input type = "submit" value = "Add New Team">
+</form>
+<table>
+  <tr>
+    <th> Name </th>
+    <th>Actions</th>
+  </tr>
+  <tr ng-repeat = "x in show_teams">
+    <td>{{x.name}}</td>
+    <td><button ng-click = "delete(x)">Delete </button> </td>
+  </tr>
+</table>
+</div>

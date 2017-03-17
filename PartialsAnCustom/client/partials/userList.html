@@ -1,0 +1,26 @@
+<div ng-controller = "UserListsController">
+  <legend>Users Controller</legend>
+  <fieldset>
+    <form ng-submit = "submit(user)">
+      First Name <input type = "text" ng-model = "user.first_name">
+      <br>
+      Last Name <input type = "text" ng-model = "user.last_name">
+      <br>
+      Favorite Language <input type = "text" ng-model = "user.favorite_language">
+      <input type="submit" value="Create user" ng-Disabled = "check(user)">
+    </form>
+    <table>
+      <tr>
+        <th> First Name </th>
+        <th>Last Name</th>
+        <th>Fav language</th>
+        <th>Actions</th>
+      </tr>
+      <tr ng-repeat = "users in alluser">
+        <td>{{users.first_name}}</td>
+        <td>{{users.last_name}}</td>
+        <td>{{users.favorite_language}}</td>
+        <td><button ng-click = "delete(users)"> delete</button></td>
+    </table>
+  </fieldset>
+<div>

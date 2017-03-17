@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    table, th, td {
+ border: 1px solid black;
+}
+    </style>
+    <script src = "bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script type="text/javascript">
+    //add a script for the route
+          MyModule = angular.module('App',["ngRoute"])//inject our router
+          MyModule.config(function($routeProvider){
+            $routeProvider
+            .when('/',{
+              templateUrl:'partials/customizeUsers.html',
+            })// the "/"
+            .when('/userList',{
+              templateUrl:'partials/userList.html'
+            })// partial2 route
+            .otherwise({
+              redirectTo:'/'
+            })//redirect
+          })//ngRoute
+          //**********************Factory *********************************
+          MyModule.factory('MyFactory', function(){
+            factory = {}
+            users = []
+            factory.add = function(user){
+              users.push(user)
+            }
+            factory.show = function(user){
+              user(users)
+            }
+            factory.delete = function(user){
+                current_index = users.indexOf(user) //find the index of value
+                users.splice(current_index,1);
+            }
+
+            return factory
+          })
+          //*********************End****************************************
+          // ********************* Controller ******************************
+          MyModule.controller('CustomizeUsersController', function($scope, MyFactory){
+            MyFactory.show(function(data){
+              $scope.alluser = data
+
+
+
+            })//callback for the show
+            $scope.propertyName = 'users.first_name';
+            $scope.reverse = true;
+            $scope.sortBy = function(propertyName){
+              $scope.reverse = ($scope.propertyName == propertyName) ? !$scope.reverse : false;
+              $scope.propertyName = propertyName
+            }
+          })//controller
+          MyModule.controller('UserListsController', function($scope,MyFactory, $location){
+            $scope.submit = function(user){
+              MyFactory.add(user)
+              $location.url('/');
+            $scope.user = {}
+            }//input
+
+              MyFactory.show(function(data){
+                $scope.alluser = data
+
+              })//callback for the show
+              $scope.delete = function(user){
+                MyFactory.delete(user)
+              }//delete
+              $scope.check = function(user) {
+                console.log(user)
+                if(typeof(user) === 'undefined'){
+                  return true
+                }else if (typeof(user.first_name) != 'undefined' && typeof(user.last_name) != 'undefined' && typeof(user.favorite_language) != 'undefined' && user.first_name != "" && user.last_name != "" && user.favorite_language != ""){
+                  return false
+                }else{
+                  return true
+                }
+
+            };//check
+          })//UserList
+          // ******************* END ****************************
+
+    </script>
+  </head>
+  <body>
+    <div ng-app = 'App'>
+      <a href = "#!/"> Customize Users </a> | <a href = "#!/userList"> User List </a>
+      <div ng-view ="">
+    </div>
+
+  </body>
+</html>

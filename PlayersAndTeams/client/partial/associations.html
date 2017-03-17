@@ -1,0 +1,32 @@
+<div ng-controller = "AssociationsController">
+
+
+<h1> Welcome to the associations partial view </h1>
+<button ng-click = "move_location()">Move back to players </button>
+<form ng-submit = "PlayerToTeam(model_player,model_team)">
+<select ng-model = "model_player">
+
+<option  ng-repeat = "x in players"> {{x.name}} </option>
+
+</select>
+<select ng-model = "model_team">
+
+<option ng-repeat = "y in teams">{{y.name}} </option>
+
+</select>
+<input type = "submit" value = "Assign player to Team">
+</form>
+<table>
+  <tr>
+    <th> Name </th>
+    <th> Team </th>
+    <th> Action </th>
+  </tr>
+  <tr ng-repeat = "x in TeamPlayer">
+    <td> {{x[0]}} </td>
+    <td> {{x[1]}} </td>
+
+    <td> <button ng-click = "delete(x)"> Delete </button>
+  </tr>
+</table>
+</div>
